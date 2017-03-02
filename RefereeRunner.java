@@ -10,7 +10,7 @@ class RefereeRunner {
     static BufferedWriter[] out = new BufferedWriter[playerCount];
 
     public static void main(String[] args) {
-        System.out.print("working");
+        Referee ref = null;
         try {
             for (int player = 0; player < playerCount; player++) {
                 ProcessBuilder pb = new ProcessBuilder();
@@ -24,7 +24,7 @@ class RefereeRunner {
                 in[player] = new Scanner(pr.getErrorStream());
             }
 
-            Referee ref = new Referee(System.in, System.out, System.err);
+            ref = new Referee(System.in, System.out, System.err);
             Properties prop = new Properties();
             ref.initReferee(playerCount, prop);
 
@@ -35,7 +35,7 @@ class RefereeRunner {
             sendToPlayers(initialToPlayer);
 
             for (int round = 0; round < ref.getMaxRoundCount(playerCount); round++) {
-                System.out.println(round);
+//                System.out.println(round);
                 String[][] toPlayer = new String[playerCount][];
                 for (int player = 0; player < playerCount; player++) {
                     toPlayer[player] = ref.getInputForPlayer(round, player);
@@ -45,7 +45,7 @@ class RefereeRunner {
                 for (int player = 0; player < playerCount; player++) {
 //                    System.out.println(ai[player].isAlive());
                     String line = in[player].nextLine();
-                    System.out.println(line);
+//                    System.out.println(line);
                     fromPlayer[player] = new String[]{line};
                 }
 
@@ -54,9 +54,14 @@ class RefereeRunner {
                 }
                 ref.updateGame(round);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if(ref != null) {
+                for (int player = 0; player < playerCount; player++) {
+                    System.out.println(ref.getScore(player));
+                }
+            }
         }
     }
 
