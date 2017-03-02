@@ -20,8 +20,13 @@ class RefereeRunner {
                 ai[player] = pr;
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(pr.getOutputStream()));
                 out[player] = writer;
-                err[player] = new Scanner(pr.getInputStream());
-                in[player] = new Scanner(pr.getErrorStream());
+                if (args.length >= 3 && "--use-stderr".equals(args[2])) {
+                    err[player] = new Scanner(pr.getInputStream());
+                    in[player] = new Scanner(pr.getErrorStream());
+                } else {
+                    in[player] = new Scanner(pr.getInputStream());
+                    err[player] = new Scanner(pr.getErrorStream());
+                }
             }
 
             ref = new Referee(System.in, System.out, System.err);
