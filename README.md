@@ -17,3 +17,4 @@ The output is the players scores. One per line.
 State of things
 
 Working prototype. Basic but useful. One of the design goals was keeping the original Referee.java untouched.
+For some unknown reason it wasn't able to read output of my AI (writen in swift), so I changed the AI over to output to standard error instead of standard output. If the third argument to this runner is --use-stderr it will read AIs output from stderr.
